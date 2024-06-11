@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../utils/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -10,17 +10,24 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("student"); // Default role is student
+  const [role, setRole] = useState("student");
+  const [isCoord, setCoord] = useState(false);
+  const [branch, setBranch] = useState("");
+
+  useEffect(() => {
+    setCoord(role === "coordinator");
+    if (role !== "coordinator") {
+      setBranch("");
+    }
+  }, [role]);
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if passwords match
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-
-    // Check if password meets criteria of a strong password
     const strongPasswordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!strongPasswordRegex.test(password)) {
@@ -29,8 +36,7 @@ const Register = () => {
       );
       return;
     }
-    let url = "/auth/register"; // Default registration URL
-    // Set the registration URL based on the selected role
+    let url = "/auth/register";
     if (role === "warden") {
       url = "/auth/register-warden";
     } else if (role === "coordinator") {
@@ -40,6 +46,7 @@ const Register = () => {
       name,
       email,
       password,
+      branch,
     });
 
     toast.promise(
@@ -67,8 +74,8 @@ const Register = () => {
 
     try {
       await registrationPromise;
-      navigate("/login");
-      toast.info("You can login now...")
+      navigate("/auth/login");
+      toast.info("You can login now...");
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -126,6 +133,26 @@ const Register = () => {
                     <option value="coordinator">Coordinator</option>
                   </select>
                 </div>
+                {isCoord && (
+                  <div>
+                    <select
+                      name="branch"
+                      id=""
+                      value={branch}
+                      className="border border-gray-900 text-gray-200 sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-[black]"
+                      onChange={(e) => setBranch(e.target.value)}
+                      required
+                    >
+                      <option selected value="">
+                        Select Branch
+                      </option>
+                      <option value="computer">Computer</option>
+                      <option value="civil">Civil</option>
+                      <option value="electrical">Electrical</option>
+                      <option value="mechanical">Mechanical</option>
+                    </select>
+                  </div>
+                )}
                 <div>
                   <input
                     type="password"
@@ -183,7 +210,7 @@ const Register = () => {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?
                 <Link
-                  to="/login"
+                  to="/auth/login"
                   className="font-medium text-blue-600 hover:underline dark:text-blue-500 pl-2"
                 >
                   Login Here

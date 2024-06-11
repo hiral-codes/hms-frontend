@@ -7,7 +7,7 @@ function Home() {
       style={{ backgroundImage: `url('/Frame 1.svg')` }}
     >
       <div className="container justify-center items-center pt-40 flex flex-wrap gap-10">
-        <Link to="/login">
+        <Link to="/auth/login">
           <div className="card w-72 h-fit p-4 flex flex-col items-center rounded-lg border border-gray-900">
             <div className="h-60 w-60 mx-auto rounded-full border border-gray-900 overflow-hidden">
               <img src="/stu.png" className="cover" alt="" />
@@ -19,7 +19,7 @@ function Home() {
             </div>
           </div>
         </Link>
-        <Link to="/login">
+        <Link to="/auth/login">
           <div className="card w-72 h-fit p-4 flex flex-col items-center rounded-lg border border-gray-900">
             <div className="h-60 w-60 mx-auto rounded-full border border-gray-900 overflow-hidden">
               <img src="/warden.png" className="cover" alt="" />
@@ -31,7 +31,7 @@ function Home() {
             </div>
           </div>
         </Link>
-        <Link to="/login">
+        <Link to="/auth/login">
           <div className="card w-72 h-fit p-4 flex flex-col items-center rounded-lg border border-gray-900">
             <div className="h-60 w-60 mx-auto rounded-full border border-gray-900 overflow-hidden">
               <img src="/teacher.png" className="cover" alt="" />
@@ -43,7 +43,7 @@ function Home() {
             </div>
           </div>
         </Link>
-        <Link to="/login">
+        <Link to="/auth/login">
           <div className="card w-72 h-fit p-4 flex flex-col items-center rounded-lg border border-gray-900">
             <div className="h-60 w-60 mx-auto rounded-full border border-gray-900 overflow-hidden">
               <img src="/principal.png" className="cover" alt="" />

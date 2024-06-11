@@ -11,6 +11,7 @@ const ApplyLeave = ({ userId }) => {
     reason: "",
     parent_mobile: "",
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -26,22 +27,16 @@ const ApplyLeave = ({ userId }) => {
         reason: "",
         parent_mobile: "",
       });
-      // Send email to the warden
-      const emailResponse = await axios.post(`/email/send-email`, {
-        to: "warden@example.com", // Warden's email address
-        subject: "Leave Application Notification",
-        text: `Student ID: ${userId}\nLeave Type: ${formData.leave_type}\nStart Date: ${formData.start_date}\nEnd Date: ${formData.end_date}\nReason: ${formData.reason}`
-      });
-      if (emailResponse.status === 200) {
-        toast.success("Application Sent and Warden Notified");
-      } else {
-        toast.warn("Application Sent but Failed to Notify Warden");
-      }
+      toast.success("Application Sent");
+      setTimeout(()=>{
+        toast("🚀 Wait for approval");
+      },2000)
     } catch (error) {
-      toast.error("Error submitting leave application");
+      toast.error("Please Logout and try again...");
       console.log(error);
     }
   };
+
   return (
     <div className="bg-black text-white p-6 rounded-lg shadow-md md:mx-auto md:max-w-md">
       <h1 className="text-2xl font-bold mb-6">Apply for Leave</h1>

@@ -18,13 +18,12 @@ function StudentDashboard() {
   }, [user, navigate]);
 
   if (loading) {
-    return (toast.loading("Loading..."))
+    return <div>Loading...</div>
   }
   return (
     <React.Fragment>
       <div className="p-20">
           <div className="max-w-screen-md">
-            Welcome, {user.name}
             <ApplyLeave userId={user._id}/>
           </div>
       </div>
