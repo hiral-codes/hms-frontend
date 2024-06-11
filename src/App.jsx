@@ -12,6 +12,8 @@ import WardenDashboard from './pages/WardenDashboard';
 import CoordinatorDashboard from './pages/CoordinatorDashboard';
 // import PrincipalDashboard from './pages/PrincipalDashboard';
 import StudentDashboard from './pages/StudentDashboard';
+import ApplyLeave from './controllers/ApplyLeave';
+import TrackLeaveStatus from './controllers/LeaveStatus';
 
 const App = () => {
     return (
@@ -27,6 +29,8 @@ const App = () => {
                     <Route path="/auth/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/student/dashboard" element={<StudentDashboard />} />
+                    <Route path="/student/apply-leave" element={<ApplyLeave />} />
+                    <Route path="/student/track-leave" element={<TrackLeaveStatus />} />
                     <Route path="/warden/dashboard" element={<WardenDashboard />} />
                     <Route path="/coordinator/dashboard" element={<CoordinatorDashboard />} />
                     {/* <Route path="/principal/dashboard" element={<PrincipalDashboard />} /> */}

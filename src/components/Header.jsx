@@ -20,9 +20,11 @@ function Header() {
 
   const menuItems = [];
 
-  if (user) {
+  if (user && user.role === 'student') {
     // Add routes for authenticated users
     menuItems.push({ label: "Dashboard", path: "/student/dashboard" });
+    menuItems.push({ label: "Apply Leave", path: "/student/apply-leave" });
+    menuItems.push({ label: "Track Leave", path: "/student/track-leave" });
     menuItems.push({ label: "Profile", path: "/profile" });
     menuItems.push({ label: "Logout", onClick: handleLogout });
   } else {

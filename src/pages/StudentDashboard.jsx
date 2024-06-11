@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import ApplyLeave from "../controllers/ApplyLeave";
-import { toast } from "react-toastify";
-
 function StudentDashboard() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -11,7 +8,7 @@ function StudentDashboard() {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/auth/login");
     } else {
       setLoading(false);
     }
@@ -23,8 +20,12 @@ function StudentDashboard() {
   return (
     <React.Fragment>
       <div className="p-20">
-          <div className="max-w-screen-md">
-            <ApplyLeave userId={user._id}/>
+          <div className="text-center">
+            <h1 className="text-5xl">Welcome, {user.name}</h1>
+            <h1 className="text-xl">Other Features Coming Soon....</h1>
+
+            {/* <ApplyLeave userId={user._id}/>
+            <TrackLeaveStatus/> */}
           </div>
       </div>
     </React.Fragment>

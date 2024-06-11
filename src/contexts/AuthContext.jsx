@@ -1,45 +1,43 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../utils/api";
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    // Check localStorage for user data
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (token && storedUser) {
-        try {
-          console.log("Checking token...");
-          const response = await api.get("/auth/check");
-          console.log("Token valid, setting user");
-          setUser(JSON.parse(storedUser));
-        } catch (error) {
-          console.error("Failed to verify token:", error);
-          setUser(null);
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-        }
-      } else {
-        console.log("No token or user in localStorage");
+      try {
+        const response = await api.get("/auth/check");
+        setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data)); // Save user data to localStorage
+      } catch (error) {
+        console.error("Failed to verify token:", error);
         setUser(null);
+        localStorage.removeItem("user"); // Remove user data from localStorage on error
       }
       setLoading(false);
     };
-    checkLoggedIn();
-  }, []);
+
+    if (!user) {
+      checkLoggedIn();
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
 
   const login = async (email, password) => {
     try {
       const response = await api.post("/auth/login", { email, password });
-      const { data } = response;
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data));
-      setUser(data);
-      return data;
+      setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data)); // Save user data to localStorage
+      return response.data;
     } catch (error) {
       console.error("Login failed:", error);
       throw new Error(
@@ -55,10 +53,10 @@ const AuthProvider = ({ children }) => {
       console.error("Failed to logout:", error);
     } finally {
       setUser(null);
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.removeItem("user"); // Remove user data from localStorage on logout
     }
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }

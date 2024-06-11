@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "../utils/api";
 import { toast } from "react-toastify";
-
-const ApplyLeave = ({ userId }) => {  
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+const ApplyLeave = () => {  
+  const {user} = useContext(AuthContext)
   const [formData, setFormData] = useState({
-    student_id: userId,
+    student_id: user._id,
     leave_type: "",
     start_date: "",
     end_date: "",
     reason: "",
     parent_mobile: "",
   });
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -36,7 +37,6 @@ const ApplyLeave = ({ userId }) => {
       console.log(error);
     }
   };
-
   return (
     <div className="bg-black text-white p-6 rounded-lg shadow-md md:mx-auto md:max-w-md">
       <h1 className="text-2xl font-bold mb-6">Apply for Leave</h1>
