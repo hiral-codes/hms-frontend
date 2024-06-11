@@ -15,20 +15,21 @@ function StudentDashboard() {
   }, [user, navigate]);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div className="loaderContainer">Loading...</div>;
   }
   return (
-    <React.Fragment>
-      <div className="p-20">
-          <div className="text-center">
-            <h1 className="text-5xl">Welcome, {user.name}</h1>
-            <h1 className="text-xl">Other Features Coming Soon....</h1>
+      <div
+        className="bg-cover loaderContainer text-white"
+        style={{ backgroundImage: `url('/Frame 1.svg')` }}
+      >
+        <div className="text-center">
+          <h1 className="text-5xl">Welcome, {user.name}</h1>
+          <h1 className="text-xl pt-4">🥱I'll design it Later</h1>
 
-            {/* <ApplyLeave userId={user._id}/>
+          {/* <ApplyLeave userId={user._id}/>
             <TrackLeaveStatus/> */}
-          </div>
+        </div>
       </div>
-    </React.Fragment>
   );
 }
 

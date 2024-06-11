@@ -6,3 +6,12 @@ body{
     background-color: black;
     color: white;
 }
+
+.loaderContainer{
+    height: calc(100vh - 76.79px);
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}

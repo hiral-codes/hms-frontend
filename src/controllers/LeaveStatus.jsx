@@ -18,6 +18,28 @@ const TrackLeaveStatus = () => {
       fetchLeaveRequests();
     }, []);
 
+    const [selectedLeave, setSelectedLeave] = useState(null);
+
+  const getStatusFill = (stage) => {
+    switch (stage) {
+      case 'warden':
+        return '25%';
+      case 'class_coordinator':
+        return '50%';
+      case 'principal':
+        return '75%';
+      default:
+        return '0%';
+    }
+  };
+
+  const handleLeaveClick = (leave) => {
+    setSelectedLeave(leave);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedLeave(null);
+  };
   return (
     <div className='text-center'>
       <h2>Track Leave Status</h2>
