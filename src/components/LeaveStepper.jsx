@@ -4,7 +4,7 @@ import { Box, Step, StepIndicator, StepSeparator, StepStatus, StepTitle, Stepper
 import { FaCircleCheck } from 'react-icons/fa6';
 
 const LeaveStepper = ({ currentStage }) => {
-  const stages = ['warden', 'class_coordinator', 'principal'];
+  const stages = ['warden', 'class_coordinator', 'principal','approved'];
   const currentIndex = stages.indexOf(currentStage);
 
   const { activeStep } = useSteps({
