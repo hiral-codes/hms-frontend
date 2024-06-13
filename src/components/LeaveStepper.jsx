@@ -13,6 +13,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { IoCheckmarkCircle, IoCheckmarkDoneCircle } from 'react-icons/io5';
+import { useBreakpointValue } from '@chakra-ui/react';
 
 const LeaveStepper = ({ currentStage }) => {
   const stages = ['warden', 'class_coordinator', 'principal', 'approved'];
@@ -23,9 +24,11 @@ const LeaveStepper = ({ currentStage }) => {
     count: stages.length,
   });
 
+  const stepperOrientation = useBreakpointValue({ base: 'vertical', md: 'horizontal' });
+
   return (
     <Box width="100%">
-      <Stepper size="lg" index={activeStep} colorScheme="blue">
+      <Stepper size="lg" index={activeStep} colorScheme="blue" orientation={stepperOrientation}>
         {stages.map((stage, index) => (
           <Step key={index}>
             <StepIndicator>
@@ -47,6 +50,7 @@ const LeaveStepper = ({ currentStage }) => {
               <StepTitle>
                 <Text fontSize="md" fontWeight="bold" textTransform="capitalize">
                   {stage.replace('_', ' ')}
+                  {stage === 'approved' && ``}
                 </Text>
               </StepTitle>
             </Flex>

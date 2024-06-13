@@ -47,11 +47,6 @@ const TrackLeaveStatus = () => {
         return <FaClock className="text-xl" color="yellow" />;
     }
   };
-
-  const handleGeneratePdf = async (leave) => {
-    await generatePdf(leave, user);
-  };
-
   return (
     <div className="bg-cover loaderContainer" style={{ backgroundImage: `url('/Frame 1.svg')` }}>
       <div className="mx-auto px-5 md:w-2/3">
