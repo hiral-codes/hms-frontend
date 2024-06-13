@@ -53,7 +53,7 @@ const TrackLeaveStatus = () => {
   };
 
   return (
-    <div className="bg-cover loaderContainer" style={{ backgroundImage: `url('/Frame2.svg')` }}>
+    <div className="bg-cover loaderContainer" style={{ backgroundImage: `url('/Frame 1.svg')` }}>
       <div className="mx-auto px-5 md:w-2/3">
         <Box textAlign="center" p={5} mx={"auto"} w="full">
           {loading ? (
@@ -154,7 +154,6 @@ const TrackLeaveStatus = () => {
                             <LeaveStepper currentStage={leave.current_stage} />
                           </Box>
                         </div>
-
                       </ListItem>
                     );
                   })}

@@ -1,9 +1,24 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaBell, FaUserCircle, FaCog, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaBell,
+  FaUserCircle,
+  FaCog,
+  FaSignOutAlt,
+  FaInfoCircle,
+} from "react-icons/fa";
 import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import { BsFillSendArrowUpFill } from "react-icons/bs";
+import {
+  BiSolidDashboard,
+  BiSolidHome,
+  BiSolidLogInCircle,
+  BiSolidPhoneCall,
+} from "react-icons/bi";
+import { TbProgressBolt } from "react-icons/tb";
+import { MdAssignmentAdd } from "react-icons/md";
 
 function Header() {
   const { user, logout } = useContext(AuthContext);
@@ -67,23 +82,59 @@ function Header() {
 
   if (user) {
     if (user.role === "student") {
-      menuItems.push({ label: "Dashboard", path: "/student/dashboard", icon: null });
-      menuItems.push({ label: "Apply Leave", path: "/student/apply-leave", icon: null });
-      menuItems.push({ label: "Track Leave", path: "/student/track-leave", icon: null });
+      menuItems.push({
+        label: "Dashboard",
+        path: "/student/dashboard",
+        icon: <BiSolidDashboard />,
+      });
+      menuItems.push({
+        label: "Apply Leave",
+        path: "/student/apply-leave",
+        icon: <BsFillSendArrowUpFill />,
+      });
+      menuItems.push({
+        label: "Track Leave",
+        path: "/student/track-leave",
+        icon: <TbProgressBolt />,
+      });
     } else if (user.role === "warden") {
-      menuItems.push({ label: "Dashboard", path: "/warden/dashboard", icon: null });
-      menuItems.push({ label: "View Leave Requests", path: "/warden/view-leave", icon: null });
-      menuItems.push({ label: "View Attendance", path: "/warden/view-attendance", icon: null });
-      menuItems.push({ label: "Profile", path: "/profile", icon: <FaUserCircle className="mr-2" /> });
+      menuItems.push({
+        label: "Dashboard",
+        path: "/warden/dashboard",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Leave Requests",
+        path: "/warden/view-leave",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Attendance",
+        path: "/warden/view-attendance",
+        icon: null,
+      });
     } else if (user.role === "class_coordinator") {
-      menuItems.push({ label: "Dashboard", path: "/coordinator/dashboard", icon: null });
-      menuItems.push({ label: "View Leave Requests", path: "/coordinator/view-leave", icon: null });
-      menuItems.push({ label: "View Attendance", path: "/coordinator/view-attendance", icon: null });
+      menuItems.push({
+        label: "Dashboard",
+        path: "/coordinator/dashboard",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Leave Requests",
+        path: "/coordinator/view-leave",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Attendance",
+        path: "/coordinator/view-attendance",
+        icon: null,
+      });
     }
   } else {
-    menuItems.push({ label: "Home", path: "/", icon: null });
-    menuItems.push({ label: "About", path: "/about", icon: null });
-    menuItems.push({ label: "Contact Us", path: "/contact", icon: null });
+    menuItems.push({ label: "Home", path: "/", icon: <BiSolidHome /> });
+    menuItems.push({ label: "About", path: "/about", icon: <FaInfoCircle /> });
+    menuItems.push({ label: "Contact Us", path: "/contact", icon: <BiSolidPhoneCall />
+    });
   }
 
   return (
@@ -96,7 +147,7 @@ function Header() {
           <Link
             key={index}
             to={item.path}
-            className={`hover:text-gray-300 transition-colors duration-200 flex items-center ${
+            className={`hover:text-gray-300 transition-colors duration-200 flex gap-2 items-center ${
               location.pathname === item.path ? "text-blue-400" : ""
             }`}
           >
@@ -183,15 +234,17 @@ function Header() {
         <nav className="hidden md:flex space-x-8 text-base font-semibold">
           <Link
             to="/auth/login"
-            className="hover:text-gray-300 transition-colors duration-200"
+            className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
           >
+            <BiSolidLogInCircle />
             Login
           </Link>
           <Link
             to="/auth/register"
-            className="hover:text-gray-300 transition-colors duration-200"
+            className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
           >
-            Register
+<MdAssignmentAdd />
+Register
           </Link>
         </nav>
       )}
@@ -201,7 +254,9 @@ function Header() {
       />
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-10 transition-all duration-300 ${
-          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isMobileMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={toggleMobileMenu}
       ></div>
