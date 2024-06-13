@@ -25,12 +25,22 @@ const Login = () => {
             logout();
             toast.error("Your account needs to be approved by the principal.");
             navigate("/");
+          } else if (loggedInUser.role === "student") {
+            // Check if all details are filled
+            const requiredFields = ["branch", "enrollmentNo", "semester", "roomNo", "mobileNo", "dob"];
+            const incompleteDetails = requiredFields.some(field => !loggedInUser[field]);
+            
+            if (incompleteDetails) {
+              navigate("/complete-registration");
+            } else {
+              navigate("/student/dashboard");
+            }
+            setTimeout(() => {
+              toast(`🚀 Welcome, ${loggedInUser.name}`);
+            }, 900);
           } else {
             // Check user role and redirect accordingly
-            if (loggedInUser.role === "student") {
-              navigate("/student/dashboard");
-              
-            } else if (loggedInUser.role === "warden") {
+            if (loggedInUser.role === "warden") {
               navigate("/warden/dashboard");
             } else if (loggedInUser.role === "class_coordinator") {
               navigate("/coordinator/dashboard");

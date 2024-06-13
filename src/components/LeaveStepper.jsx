@@ -12,7 +12,7 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
-import { IoCheckmarkCircle } from 'react-icons/io5';
+import { IoCheckmarkCircle, IoCheckmarkDoneCircle } from 'react-icons/io5';
 
 const LeaveStepper = ({ currentStage }) => {
   const stages = ['warden', 'class_coordinator', 'principal', 'approved'];
@@ -30,9 +30,17 @@ const LeaveStepper = ({ currentStage }) => {
           <Step key={index}>
             <StepIndicator>
               <StepStatus
-                complete={<StepCompletedIcon />}
+                complete={
+                  currentStage === 'approved' && index === stages.length - 1
+                    ? <StepCompletedIcon />
+                    : <StepCompletedIcon />
+                }
                 incomplete={<StepIncompleteIcon />}
-                active={<StepActiveIcon />}
+                active={
+                  currentStage === 'approved' && index === stages.length - 1
+                    ? <IoCheckmarkDoneCircle className='text-4xl text-green-600'/>
+                    : <StepActiveIcon />
+                }
               />
             </StepIndicator>
             <Flex justify="center" mt={2}>

@@ -14,6 +14,8 @@ import CoordinatorDashboard from "./pages/CoordinatorDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import ApplyLeave from "./controllers/ApplyLeave";
 import TrackLeaveStatus from "./controllers/LeaveStatus";
+import CompleteRegistration from "./components/CompleteRegistration";
+import NotFound from "./pages/PageNotFound";
 
 const App = () => {
   return (
@@ -27,11 +29,13 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/complete-registration" element={<CompleteRegistration />} />
           <Route path="/student/apply-leave" element={<ApplyLeave />} />
           <Route path="/student/track-leave" element={<TrackLeaveStatus />} />
           <Route path="/warden/dashboard" element={<WardenDashboard />} />

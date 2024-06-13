@@ -15,3 +15,6 @@ body{
     justify-content: center;
     z-index: 10;
 }
+.fitScreen{
+    height: calc(100vh - 76.79px);
+}

@@ -83,7 +83,7 @@ const Register = () => {
 
   return (
     <div
-      className="bg-cover text-white"
+      className="bg-cover text-white pb-8"
       style={{ backgroundImage: `url('/Frame2.svg')` }}
     >
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 sm:items-start sm:pl-20 md:pl-60">

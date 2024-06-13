@@ -46,6 +46,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+
   const logout = async () => {
     try {
       await api.post("/auth/logout");
