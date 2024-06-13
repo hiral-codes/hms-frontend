@@ -18,3 +18,22 @@ body{
 .fitScreen{
     height: calc(100vh - 76.79px);
 }
+/* customScrollbar.css */
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1a202c; /* Dark gray */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* Lighter gray */
+    border-radius: 6px;
+    border: 3px solid #1a202c; /* Match the track color for a neat look */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #718096; /* Even lighter gray */
+  }
+  

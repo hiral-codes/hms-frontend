@@ -70,7 +70,6 @@ function Header() {
       menuItems.push({ label: "Dashboard", path: "/student/dashboard" });
       menuItems.push({ label: "Apply Leave", path: "/student/apply-leave" });
       menuItems.push({ label: "Track Leave", path: "/student/track-leave" });
-      menuItems.push({ label: "Profile", path: "/profile" });
     } else if (user.role === "warden") {
       menuItems.push({ label: "Dashboard", path: "/warden/dashboard" });
       menuItems.push({
@@ -92,7 +91,6 @@ function Header() {
         label: "View Attendance",
         path: "/coordinator/view-attendance",
       });
-      menuItems.push({ label: "Profile", path: "/profile" });
     }
   } else {
     menuItems.push({ label: "Home", path: "/" });
@@ -107,14 +105,14 @@ function Header() {
       </Link>
       <nav>
         <ul
-          className={`md:flex gap-6 ${
+          className={`md:flex gap-6 text-base font-semibold text-gray-400 ${
             isMobileMenuOpen ? "flex" : "hidden"
           } flex-col md:flex-row absolute md:relative top-16 md:top-0 left-0 w-full md:w-auto bg-black md:bg-transparent`}
         >
           {menuItems.map((item, index) => (
             <li
               key={index}
-              className="border-b md:border-none border-gray-700 md:py-0 py-2 px-8 md:px-0"
+              className="border-b md:border-none hover:text-gray-200 hover:font-bold transition-all ease-in border-gray-700 md:py-0 py-2 px-8 md:px-0"
             >
               <Link
                 to={item.path}
@@ -132,11 +130,11 @@ function Header() {
       {user ? (
         <div className="flex items-center gap-6">
           <div className="relative">
-            <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-800 p-1"               onClick={toggleNotificationMenu}
+            <div
+              className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-800 p-1"
+              onClick={toggleNotificationMenu}
             >
-            <FaBell
-              className="text-xl cursor-pointer text-white"
-            />
+              <FaBell className="text-xl cursor-pointer text-white" />
             </div>
             {isNotificationOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-gray-300 rounded-lg shadow-lg">
@@ -166,6 +164,14 @@ function Header() {
                   <p className="text-base text-gray-500">{user.email}</p>
                 </div>
                 <ul>
+                  <li className="p-2 border-b border-gray-600">
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsProfileMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  </li>
                   <li className="p-2 border-b border-gray-600">
                     <Link
                       to="/profile"

@@ -52,7 +52,7 @@ const ApplyLeave = () => {
               value={formData.leave_type}
               onChange={handleChange}
               required
-              className="block w-full px-4 py-2 border border-gray-900 rounded-md bg-[#171717] text-white focus:outline-none"
+              className="block w-full px-4 py-2 border border-gray-900 rounded-md bg-gray-800 text-white focus:outline-none"
             >
               <option value="">Select Leave Type</option>
               <option value="regular">Regular</option>
@@ -84,7 +84,7 @@ const ApplyLeave = () => {
             </div>
           </div>
           <div className="mb-4">
-            <span className="block mb-1">Reason:</span>
+            <span className="block mb-1">Reason</span>
             <textarea
               name="reason"
               value={formData.reason}
@@ -94,19 +94,20 @@ const ApplyLeave = () => {
             />
           </div>
           <div className="mb-4">
-            <span className="block mb-1">Parent's Mobile:</span>
+            <span className="block mb-1">Parent's Mobile</span>
             <input
               type="text"
               name="parent_mobile"
               value={formData.parent_mobile}
               onChange={handleChange}
+              placeholder="+91"
               required
               className="block w-full px-4 py-2 border border-gray-900 rounded-md bg-gray-800 text-white focus:outline-none focus:border-blue-500"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Apply
           </button>
