@@ -87,8 +87,8 @@ function Header() {
   }
 
   return (
-    <header className="bg-black border-b border-gray-900 text-white py-4 fixed top-0 left-0 right-0 px-6 flex items-center justify-between z-20 shadow-lg">
-      <Link to="/" className="text-2xl font-bold">
+    <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-6 flex items-center justify-between z-20 shadow-lg">
+      <Link to="#" className="text-2xl font-bold">
         <img src="/logo.svg" alt="Logo" className="max-h-7" />
       </Link>
       <nav className="hidden md:flex space-x-8 text-base font-semibold">
@@ -136,13 +136,13 @@ function Header() {
               onClick={toggleProfileMenu}
             />
             {isProfileMenuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-gray-800 text-gray-200 rounded-lg shadow-lg">
-                <div className="p-4 border-b border-gray-700">
+              <div className="absolute right-0 p-2 mt-2 w-48 bg-gray-800 text-gray-200 rounded-lg shadow-lg">
+                <div className="p-2 border-b border-gray-700">
                   <p className="font-bold">{user.name}</p>
                   <p className="text-sm text-gray-400">{user.email}</p>
                 </div>
                 <ul>
-                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                  <li className="p-2 hover:bg-gray-700 transition-all rounded-md mt-2 duration-200">
                     <Link
                       to="/profile"
                       onClick={() => setIsProfileMenuOpen(false)}
@@ -152,7 +152,7 @@ function Header() {
                       Profile
                     </Link>
                   </li>
-                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                  <li className="p-2 hover:bg-gray-700 transition-all rounded-md duration-200">
                     <Link
                       to="/settings"
                       onClick={() => setIsProfileMenuOpen(false)}
@@ -162,7 +162,7 @@ function Header() {
                       Settings
                     </Link>
                   </li>
-                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                  <li className="p-2 hover:bg-gray-700 transition-all rounded-md duration-200">
                     <button
                       onClick={() => {
                         handleLogout();
