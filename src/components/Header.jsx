@@ -99,43 +99,32 @@ function Header() {
   }
 
   return (
-    <div className="bg-black text-white border-b border-gray-900 py-6 fixed top-0 left-0 right-0 px-8 flex items-center justify-between z-10">
+    <header className="bg-black text-white border-b border-gray-900 py-4 fixed top-0 left-0 right-0 px-6 flex items-center justify-between z-20">
       <Link to="#" className="logo text-2xl">
         <img src="/logo.svg" alt="Logo" className="max-h-7" />
       </Link>
-      <nav>
-        <ul
-          className={`md:flex gap-6 text-base font-semibold text-gray-400 ${
-            isMobileMenuOpen ? "flex" : "hidden"
-          } flex-col md:flex-row absolute md:relative top-16 md:top-0 left-0 w-full md:w-auto bg-black md:bg-transparent`}
-        >
-          {menuItems.map((item, index) => (
-            <li
-              key={index}
-              className="border-b md:border-none hover:text-gray-200 hover:font-bold transition-all ease-in border-gray-700 md:py-0 py-2 px-8 md:px-0"
-            >
-              <Link
-                to={item.path}
-                className={
-                  location.pathname === item.path ? "text-blue-500" : ""
-                }
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <nav className="hidden md:flex space-x-8 text-base font-semibold text-gray-400">
+        {menuItems.map((item, index) => (
+          <Link
+            key={index}
+            to={item.path}
+            className={`hover:text-gray-200 transition-all duration-200 ${
+              location.pathname === item.path ? "text-blue-500" : ""
+            }`}
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
       {user ? (
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <div className="relative">
-            <div
+            <button
               className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-800 p-1"
               onClick={toggleNotificationMenu}
             >
               <FaBell className="text-xl cursor-pointer text-white" />
-            </div>
+            </button>
             {isNotificationOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-gray-300 rounded-lg shadow-lg">
                 <ul>
@@ -154,47 +143,33 @@ function Header() {
             <img
               src={getAvatar()}
               alt="User Avatar"
-              className="w-8 h-8 rounded-full cursor-pointer flex-shrink-0"
+              className="w-8 h-8 rounded-full cursor-pointer"
               onClick={toggleProfileMenu}
             />
             {isProfileMenuOpen && (
-              <div className="absolute right-0 mt-2 px-4 py-1 bg-gray-900 text-gray-300 rounded-lg shadow-lg">
-                <div className="p-2 border-b border-gray-600">
-                  <p>{user.name}</p>
-                  <p className="text-base text-gray-500">{user.email}</p>
+              <div className="absolute right-0 mt-2 w-48 bg-gray-900 text-gray-300 rounded-lg shadow-lg">
+                <div className="p-4 border-b border-gray-600">
+                  <p className="font-bold">{user.name}</p>
+                  <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
                 <ul>
-                  <li className="p-2 border-b border-gray-600">
-                    <Link
-                      to="/profile"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                    >
+                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                    <Link to="/profile" onClick={() => setIsProfileMenuOpen(false)}>
                       Profile
                     </Link>
                   </li>
-                  <li className="p-2 border-b border-gray-600">
-                    <Link
-                      to="/profile"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                    >
+                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                    <Link to="/profile" onClick={() => setIsProfileMenuOpen(false)}>
                       Edit Profile
                     </Link>
                   </li>
-                  <li className="p-2 border-b border-gray-600">
-                    <Link
-                      to="/settings"
-                      onClick={() => setIsProfileMenuOpen(false)}
-                    >
+                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                    <Link to="/settings" onClick={() => setIsProfileMenuOpen(false)}>
                       Settings
                     </Link>
                   </li>
-                  <li className="p-2">
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsProfileMenuOpen(false);
-                      }}
-                    >
+                  <li className="p-2 hover:bg-gray-700 transition-all duration-200">
+                    <button onClick={() => { handleLogout(); setIsProfileMenuOpen(false); }}>
                       Logout
                     </button>
                   </li>
@@ -203,12 +178,29 @@ function Header() {
             )}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <nav className="hidden md:flex space-x-8 text-base font-semibold text-gray-400">
+          <Link to="/login" className="hover:text-gray-200 transition-all duration-200">Login</Link>
+          <Link to="/register" className="hover:text-gray-200 transition-all duration-200">Register</Link>
+        </nav>
+      )}
       <GiHamburgerMenu
         className="block text-2xl md:hidden cursor-pointer"
         onClick={toggleMobileMenu}
       />
-    </div>
+      <div className={`md:hidden fixed inset-0 bg-black bg-opacity-75 z-10 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={toggleMobileMenu}></div>
+      <nav className={`fixed top-0 left-0 w-64 h-full bg-black border-r border-gray-800 z-20 p-6 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300`}>
+        <ul className="space-y-6">
+          {menuItems.map((item, index) => (
+            <li key={index}>
+              <Link to={item.path} className={`block text-gray-400 hover:text-white transition-all duration-200 ${location.pathname === item.path ? "text-blue-500" : ""}`} onClick={toggleMobileMenu}>
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
   );
 }
 
