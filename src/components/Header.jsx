@@ -219,14 +219,18 @@ function Header() {
         <nav className="flex space-x-8 text-base font-semibold">
           <Link
             to="/auth/login"
-            className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
+            className={`hover:text-gray-300 transition-colors duration-200 flex items-center gap-1 ${
+              location.pathname === '/auth/login' ? "text-blue-400" : ""
+            }`}
           >
             <BiSolidLogInCircle />
             Login
           </Link>
           <Link
             to="/auth/register"
-            className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
+            className={`hover:text-gray-300 transition-colors duration-200 flex items-center gap-1 ${
+              location.pathname === '/auth/register' ? "text-blue-400" : ""
+            }`}
           >
             <MdAssignmentAdd />
             Register
