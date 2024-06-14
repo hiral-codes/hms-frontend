@@ -8,7 +8,7 @@ import { FaAddressCard } from 'react-icons/fa';
 function Profile() {
   const { user,getAvatar } = useContext(AuthContext);
   return (
-    <Box className="bg-black text-white py-10">
+    <Box className="bg-black text-white py-8 px-6">
       <Flex justify="center" align="center" direction="column">
         <Box
           className="max-w-lg w-full bg-gray-800 shadow-lg rounded-lg p-6 text-center"

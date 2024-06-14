@@ -13,7 +13,7 @@ const CompleteRegistration = () => {
   const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
   const [image, setImage] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -41,6 +41,8 @@ const CompleteRegistration = () => {
         }
       );
       toast.success("Data Updated Successfully");
+      const userDataResponse = await axios.get(`/students/profile/${user._id}`);
+      setUser(userDataResponse.data);
       navigate("/student/dashboard");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
@@ -73,7 +75,7 @@ const CompleteRegistration = () => {
                       />
                     ) : (
                       <div className="flex justify-center items-center w-full h-full bg-gray-800 text-gray-500 text-lg">
-                      Upload Image
+                        Upload Image
                       </div>
                     )}
                   </label>

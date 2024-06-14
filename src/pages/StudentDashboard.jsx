@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Heading, Stack, Text, Divider } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Stack,
+  Text,
+  Divider,
+  Spinner,
+} from "@chakra-ui/react";
 
 function StudentDashboard() {
   const { user } = useContext(AuthContext);
@@ -17,13 +25,23 @@ function StudentDashboard() {
   }, [user, navigate]);
 
   if (loading) {
-    return <div className="loaderContainer">Loading...</div>;
+    return (
+      <div className="loaderContainer">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.600"
+          size="xl"
+        />
+      </div>
+    );
   }
 
   return (
     <Box
       className="bg-cover text-white"
-      style={{ backgroundImage: `url('/Frame 1.svg')`, minHeight: '100vh' }}
+      style={{ backgroundImage: `url('/Frame 1.svg')`, minHeight: "100vh" }}
     >
       <Box className="p-8">
         <Heading className="text-5xl mb-8">Welcome, {user.name}</Heading>
@@ -33,7 +51,9 @@ function StudentDashboard() {
           <Box className="bg-gray-800 p-6 rounded-lg shadow-lg">
             <Heading className="text-2xl mb-4">Announcements</Heading>
             <Divider mb={4} />
-            <Text>🎉 Exam schedules have been updated. Check your timetable.</Text>
+            <Text>
+              🎉 Exam schedules have been updated. Check your timetable.
+            </Text>
             <Text>📢 New library hours: 9 AM - 8 PM from next week.</Text>
           </Box>
 
@@ -51,7 +71,10 @@ function StudentDashboard() {
             <Divider mb={4} />
             <Text>📰 New AI course starting this fall.</Text>
             <Text>📰 Scholarship opportunities for 2024-2025 announced.</Text>
-            <Text>📰 College ranked top 10 in the state for computer science programs.</Text>
+            <Text>
+              📰 College ranked top 10 in the state for computer science
+              programs.
+            </Text>
             <Text>📰 Virtual seminar on Cybersecurity next month.</Text>
           </Box>
         </Stack>

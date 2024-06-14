@@ -62,7 +62,7 @@ const LeaveStepper = ({ currentStage }) => {
   );
 };
 
-const StepCompletedIcon = () => <IoCheckmarkCircle className="text-4xl text-blue-600" />;
+const StepCompletedIcon = () => <IoCheckmarkCircle className="text-4xl text-gray-900" />;
 const StepIncompleteIcon = () => <Box bg="gray.300" w={6} h={6} borderRadius="50%" />;
 const StepActiveIcon = () => <Box bg="blue.500" w={6} h={6} borderRadius="50%" />;
 
