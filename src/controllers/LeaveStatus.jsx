@@ -14,8 +14,13 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { format, parseISO } from "date-fns";
-import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaClock,
+} from "react-icons/fa";
 import LeaveStepper from "../components/LeaveStepper";
+
 const TrackLeaveStatus = () => {
   const { user } = useContext(AuthContext);
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -36,16 +41,20 @@ const TrackLeaveStatus = () => {
     fetchLeaveRequests();
   }, [user]);
 
-  const getApprover = (currentStage) => {
-    switch (currentStage) {
-      case "class_coordinator":
-        return "Warden";
-      case "principal":
-        return "Class Coordinator";
-      case "approved":
-        return "Principal";
-      default:
-        return "Pending";
+  const getApprover = (leave) => {
+    if (leave.status === "rejected") {
+      return ``;
+    } else {
+      switch (leave.current_stage) {
+        case "class_coordinator":
+          return "Warden";
+        case "principal":
+          return "Class Coordinator";
+        case "approved":
+          return "Principal";
+        default:
+          return "Pending";
+      }
     }
   };
 
@@ -103,7 +112,7 @@ const TrackLeaveStatus = () => {
                         console.error("Error parsing date:", error);
                       }
                     }
-                    const approver = getApprover(leave.current_stage);
+                    const approver = getApprover(leave);
                     const statusIcon = getStatusIcon(leave.status);
 
                     return (
@@ -129,7 +138,16 @@ const TrackLeaveStatus = () => {
                               {leave.reason}
                             </Heading>
                             <VStack>
-                              {leave.status !== "pending" && (
+                              {leave.status === "rejected" ? (
+                                <>
+                                  <Badge colorScheme="red" mb={2}>
+                                    Rejected
+                                  </Badge>
+                                  <Text fontSize="lg" fontWeight={700}>
+                                    {approver}
+                                  </Text>
+                                </>
+                              ) : leave.status !== "pending" && (
                                 <>
                                   <Badge colorScheme="purple" mb={2}>
                                     Approved By
@@ -148,7 +166,16 @@ const TrackLeaveStatus = () => {
                               {leave.reason}
                             </Heading>
                             <HStack>
-                              {leave.status !== "pending" && (
+                              {leave.status === "rejected" ? (
+                                <>
+                                  <Badge colorScheme="red" mr={2}>
+                                    Rejected
+                                  </Badge>
+                                  <Text fontSize="lg" fontWeight={700}>
+                                    {approver}
+                                  </Text>
+                                </>
+                              ) : leave.status !== "pending" && (
                                 <>
                                   <Badge colorScheme="purple" mr={2}>
                                     Approved By
@@ -178,9 +205,15 @@ const TrackLeaveStatus = () => {
                               Leave Duration
                             </Badge>
                             <Badge colorScheme="none" mr={2} fontSize="sm">
-                              {format(new Date(leave.start_date), "dd/MM/yyyy")}{" "}
+                              {format(
+                                new Date(leave.start_date),
+                                "dd/MM/yyyy"
+                              )}{" "}
                               To{" "}
-                              {format(new Date(leave.end_date), "dd/MM/yyyy")}
+                              {format(
+                                new Date(leave.end_date),
+                                "dd/MM/yyyy"
+                              )}
                             </Badge>
                           </Text>
                           <Text fontSize="md">

@@ -16,6 +16,7 @@ import ApplyLeave from "./controllers/ApplyLeave";
 import TrackLeaveStatus from "./controllers/LeaveStatus";
 import CompleteRegistration from "./components/CompleteRegistration";
 import NotFound from "./pages/PageNotFound";
+import LeaveRequests from "./controllers/LeaveRequests";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/student/apply-leave" element={<ApplyLeave />} />
           <Route path="/student/track-leave" element={<TrackLeaveStatus />} />
           <Route path="/warden/dashboard" element={<WardenDashboard />} />
+          <Route path="/warden/view-leave" element={<LeaveRequests />} />
           <Route
             path="/coordinator/dashboard"
             element={<CoordinatorDashboard />}
