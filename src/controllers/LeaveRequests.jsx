@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "../utils/api";
+import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import axios from "../utils/api";
 import {
   Box,
   Button,
@@ -17,29 +18,31 @@ import {
   ModalCloseButton,
   Text,
   useDisclosure,
+  Icon,
+  Avatar,
 } from "@chakra-ui/react";
-import { CheckCircleIcon, CloseIcon } from "@chakra-ui/icons";
+import { CheckCircleIcon, CloseIcon, InfoIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
 
 const LeaveRequests = () => {
-  const { user } = useContext(AuthContext); // Assuming AuthContext provides user info
+  const { getAvatar } = useContext(AuthContext);
   const [students, setStudents] = useState({});
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Fetch leave requests on component mount
-  useEffect(() => {
-    const fetchLeaveRequests = async () => {
-      try {
-        const response = await axios.get(`/warden/leave-requests`);
-        setLeaveRequests(response.data);
-        console.log("Fetched leave requests successfully:", response.data);
-      } catch (error) {
-        console.log("Error fetching leave requests:", error);
-      }
-    };
+  const fetchLeaveRequests = async () => {
+    try {
+      const response = await axios.get(`/warden/leave-requests`);
+      setLeaveRequests(response.data);
+      console.log("Fetched leave requests successfully:", response.data);
+    } catch (error) {
+      console.log("Error fetching leave requests:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchLeaveRequests();
   }, []);
 
@@ -85,21 +88,18 @@ const LeaveRequests = () => {
         `/warden/leave-requests/${selectedRequestId}`,
         { status }
       );
-      if (status === 'approved') {
-        toast.success("Leave Approved");
-      } else if (status === 'rejected') {
-        toast.info("Leave Rejected");
+      fetchLeaveRequests();
+      if(status === 'approved'){
+        toast.success("Leave Approved")
       }
-      
-      // Update leaveRequests state to reflect the updated status and rejected_by
-      setLeaveRequests(prevRequests =>
-        prevRequests.map(req =>
-          req._id === selectedRequestId
-            ? { ...req, status, rejected_by: status === 'rejected' ? user.name : req.rejected_by }
-            : req
+      else{
+        toast.info("Leave Rejected")
+      }
+      setLeaveRequests((prev) =>
+        prev.map((req) =>
+          req._id === selectedRequestId ? { ...req, status } : req
         )
       );
-      
       handleCloseModal();
     } catch (error) {
       console.log("Error updating leave request status:", error.response ? error.response.data : error.message);
@@ -113,7 +113,7 @@ const LeaveRequests = () => {
     <Box p={4} bg="gray.800" minH="100vh" color="white">
       <Heading as="h2" size="xl" mb={4}>Leave Requests ({leaveRequests.length})</Heading>
       <List spacing={4}>
-        {leaveRequests.map(request => (
+        {leaveRequests.map((request) => (
           <ListItem
             key={request._id}
             p={4}
@@ -144,7 +144,7 @@ const LeaveRequests = () => {
             <ModalHeader>Student Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <img src={selectedStudent.avatarUrl} alt="Student Avatar" className="max-h-40 mx-auto rounded-full"/>
+              <img src={getAvatar(selectedStudent)} className="max-h-40 mx-auto rounded-full"/>
               <Text mb={2}><strong>Name:</strong> {selectedStudent.name}</Text>
               <Text mb={2}><strong>Branch:</strong> {selectedStudent.branch}</Text>
               <Text mb={2}><strong>Reason for Leave:</strong> {selectedRequest.reason}</Text>
