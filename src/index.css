@@ -8,7 +8,7 @@ body{
 }
 
 .loaderContainer{
-    height: calc(100vh - 76.79px);
+    height: calc(100vh - 80.8px);
     background-color: black;
     display: flex;
     align-items: center;
@@ -16,7 +16,7 @@ body{
     z-index: 10;
 }
 .fitScreen{
-    height: calc(100vh - 76.79px);
+    height: calc(100vh - 80.8px);
 }
 /* customScrollbar.css */
 ::-webkit-scrollbar {

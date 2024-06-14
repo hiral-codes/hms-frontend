@@ -27,10 +27,10 @@ const Login = () => {
             navigate("/");
           } else if (loggedInUser.role === "student") {
             // Check if all details are filled
-            const requiredFields = ["branch", "enrollmentNo", "semester", "roomNo", "mobileNo", "dob"];
+            const requiredFields = ["branch"]; // Add more fields if necessary
             const incompleteDetails = requiredFields.some(field => !loggedInUser[field]);
-            
             if (incompleteDetails) {
+              toast.info("Let's Add Academic Details");
               navigate("/complete-registration");
             } else {
               navigate("/student/dashboard");

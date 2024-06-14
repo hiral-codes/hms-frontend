@@ -21,7 +21,7 @@ import { TbProgressBolt } from "react-icons/tb";
 import { MdAssignmentAdd } from "react-icons/md";
 
 function Header() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, getAvatar } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,30 +52,6 @@ function Header() {
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen((prev) => !prev);
     setIsNotificationOpen(false);
-  };
-
-  const getAvatar = () => {
-    try {
-      if (user && user.image && user.image.data) {
-        const chunkSize = 1024;
-        const bytes = new Uint8Array(user.image.data);
-        const byteCharacters = [];
-
-        for (let i = 0; i < bytes.length; i += chunkSize) {
-          const chunk = bytes.slice(i, i + chunkSize);
-          byteCharacters.push(...chunk);
-        }
-
-        const base64String = btoa(
-          String.fromCharCode.apply(null, byteCharacters)
-        );
-        return `data:image/png;base64,${base64String}`;
-      }
-      return "/avatar.png";
-    } catch (error) {
-      console.error("Error generating Base64:", error);
-      return "/avatar.png";
-    }
   };
 
   const menuItems = [];
@@ -133,14 +109,21 @@ function Header() {
   } else {
     menuItems.push({ label: "Home", path: "/", icon: <BiSolidHome /> });
     menuItems.push({ label: "About", path: "/about", icon: <FaInfoCircle /> });
-    menuItems.push({ label: "Contact Us", path: "/contact", icon: <BiSolidPhoneCall />
+    menuItems.push({
+      label: "Contact Us",
+      path: "/contact",
+      icon: <BiSolidPhoneCall />,
     });
   }
 
   return (
     <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-6 flex items-center justify-between z-20 shadow-lg">
+      <GiHamburgerMenu
+        className="block text-xl md:hidden cursor-pointer"
+        onClick={toggleMobileMenu}
+      />
       <Link to="#" className="text-2xl font-bold">
-        <img src="/logo.svg" alt="Logo" className="max-h-7" />
+        <img src="/logo.svg" alt="Logo" className="max-h-5 md:max-h-7" />
       </Link>
       <nav className="hidden md:flex space-x-8 text-base font-semibold">
         {menuItems.map((item, index) => (
@@ -180,12 +163,14 @@ function Header() {
             )}
           </div>
           <div className="relative">
-            <img
-              src={getAvatar()}
-              alt="User Avatar"
-              className="w-8 h-8 rounded-full cursor-pointer"
-              onClick={toggleProfileMenu}
-            />
+            <div className="w-8 h-8 border border-gray-600 rounded-full">
+              <img
+                src={getAvatar(user)}
+                alt="User Avatar"
+                className="w-full h-full rounded-full border object-cover object-top cursor-pointer"
+                onClick={toggleProfileMenu}
+              />
+            </div>
             {isProfileMenuOpen && (
               <div className="absolute right-0 p-2 mt-2 w-48 bg-gray-800 text-gray-200 rounded-lg shadow-lg">
                 <div className="p-2 border-b border-gray-700">
@@ -231,7 +216,7 @@ function Header() {
           </div>
         </div>
       ) : (
-        <nav className="hidden md:flex space-x-8 text-base font-semibold">
+        <nav className="flex space-x-8 text-base font-semibold">
           <Link
             to="/auth/login"
             className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
@@ -243,15 +228,11 @@ function Header() {
             to="/auth/register"
             className="hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
           >
-<MdAssignmentAdd />
-Register
+            <MdAssignmentAdd />
+            Register
           </Link>
         </nav>
       )}
-      <GiHamburgerMenu
-        className="block text-2xl md:hidden cursor-pointer"
-        onClick={toggleMobileMenu}
-      />
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-10 transition-all duration-300 ${
           isMobileMenuOpen

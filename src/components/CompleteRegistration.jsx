@@ -11,6 +11,7 @@ const CompleteRegistration = () => {
   const [roomNo, setRoomNo] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [dob, setDob] = useState("");
+  const [address, setAddress] = useState("");
   const [image, setImage] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const CompleteRegistration = () => {
     formData.append("semester", semester);
     formData.append("roomNo", roomNo);
     formData.append("mobileNo", mobileNo);
+    formData.append("address", address);
     formData.append("dob", dob);
     formData.append("image", image);
     formData.append("userId", user._id);
@@ -162,6 +164,16 @@ const CompleteRegistration = () => {
                     required
                     value={dob}
                     onChange={(e) => setDob(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <textarea
+                    id="mobileNo"
+                    placeholder="Address"
+                    className="border border-gray-900 text-gray-200 sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-[black]"
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
                 <button

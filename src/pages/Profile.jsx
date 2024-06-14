@@ -4,21 +4,21 @@ import { Box, Flex, Avatar, Text, Heading, Stack, Badge, Divider, IconButton } f
 import { BiEdit, BiUser, BiMailSend, BiBook, BiCalendar, BiPhone, BiHome } from 'react-icons/bi';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { FaAddressCard } from 'react-icons/fa';
 function Profile() {
-  const { user } = useContext(AuthContext);
-
+  const { user,getAvatar } = useContext(AuthContext);
   return (
     <Box className="bg-black text-white py-10">
       <Flex justify="center" align="center" direction="column">
         <Box
           className="max-w-lg w-full bg-gray-800 shadow-lg rounded-lg p-6 text-center"
         >
-          <Avatar
-            size="2xl"
-            src='https://via.placeholder.com/100'
-            mb={4}
-            className="mx-auto"
+          <div className='p-2 h-52 overflow-hidden w-52 mx-auto border border-gray-600 shadow-lg rounded-full bg-gray-600'>
+          <img
+            src={`${getAvatar(user)}`}
+            className="w-48 h-48 rounded-full object-cover object-top mx-auto"
           />
+          </div>
           <Heading className="text-2xl font-body mb-2">
             {user.name}
           </Heading>
@@ -46,6 +46,9 @@ function Profile() {
               <BiCalendar className="mr-2" /> {user.dob ? format(new Date(user.dob), 'MMMM d, yyyy') : 'N/A'}
             </Badge>
           </Stack>
+          <Badge className="font-normal text-gray-300 mb-4">
+            <FaAddressCard className="mr-2 inline-block" /> {user.address}
+          </Badge>
           <Text className="font-normal text-gray-300 mb-4">
             <BiMailSend className="mr-2 inline-block" /> {user.email}
           </Text>

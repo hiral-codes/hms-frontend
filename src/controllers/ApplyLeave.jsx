@@ -28,13 +28,12 @@ const ApplyLeave = () => {
         reason: "",
         parent_mobile: "",
       });
-      toast.success("Application Sent");
+      toast.success("Application Sent",{autoClose:1000});
       setTimeout(() => {
         toast("🚀 Wait for approval");
-      }, 2000);
+      }, 500);
     } catch (error) {
       toast.error("Please Logout and try again...");
-      console.log(error);
     }
   };
   return (

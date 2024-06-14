@@ -22,9 +22,10 @@ const App = () => {
     <AuthProvider>
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={2000}
         theme="dark"
         hideProgressBar={true}
+        closeButton={false}
       />
       <Router>
         <Header />

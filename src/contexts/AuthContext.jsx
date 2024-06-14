@@ -1,11 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../utils/api";
-
+import { Spinner } from "@chakra-ui/react";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Check localStorage for user data
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
@@ -15,12 +14,14 @@ const AuthProvider = ({ children }) => {
     const checkLoggedIn = async () => {
       try {
         const response = await api.get("/auth/check");
-        setUser(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data)); // Save user data to localStorage
+        const userData = response.data;
+        userData.avatar = getAvatar(userData);
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData));
       } catch (error) {
         console.error("Failed to verify token:", error);
         setUser(null);
-        localStorage.removeItem("user"); // Remove user data from localStorage on error
+        localStorage.removeItem("user");
       }
       setLoading(false);
     };
@@ -35,9 +36,11 @@ const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await api.post("/auth/login", { email, password });
-      setUser(response.data);
-      localStorage.setItem("user", JSON.stringify(response.data)); // Save user data to localStorage
-      return response.data;
+      const userData = response.data;
+      userData.avatar = getAvatar(userData);
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+      return userData;
     } catch (error) {
       console.error("Login failed:", error);
       throw new Error(
@@ -46,7 +49,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-
   const logout = async () => {
     try {
       await api.post("/auth/logout");
@@ -54,16 +56,40 @@ const AuthProvider = ({ children }) => {
       console.error("Failed to logout:", error);
     } finally {
       setUser(null);
-      localStorage.removeItem("user"); // Remove user data from localStorage on logout
+      localStorage.removeItem("user");
     }
   };
 
+  const getAvatar = (userData) => {
+    if (userData && userData.image && userData.image.data) {
+      try {
+        const byteArray = new Uint8Array(userData.image.data);
+        const blob = new Blob([byteArray], { type: "image/png" });
+        return URL.createObjectURL(blob);
+      } catch (error) {
+        console.error("Error generating Blob URL:", error);
+        return "/avatar.png";
+      }
+    }
+    return "/avatar.png";
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen z-50 flex items-center justify-center">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.600"
+          size="xl"
+        />
+      </div>
+    );
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, getAvatar }}>
       {children}
     </AuthContext.Provider>
   );

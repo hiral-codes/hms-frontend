@@ -2,7 +2,18 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "../utils/api";
 import { AuthContext } from "../contexts/AuthContext";
 import LeaveStepper from "../components/LeaveStepper";
-import { Box, List, ListItem, Text, Heading, Badge, VStack, HStack, Button } from "@chakra-ui/react";
+import {
+  Box,
+  List,
+  ListItem,
+  Text,
+  Heading,
+  Badge,
+  VStack,
+  HStack,
+  Skeleton,
+  SkeletonText,
+} from "@chakra-ui/react";
 import { format, parseISO } from "date-fns";
 import { FaCheckCircle, FaTimesCircle, FaClock } from "react-icons/fa";
 
@@ -14,7 +25,9 @@ const TrackLeaveStatus = () => {
   useEffect(() => {
     const fetchLeaveRequests = async () => {
       try {
-        const response = await axios.get(`/students/track-leave-status/${user._id}`);
+        const response = await axios.get(
+          `/students/track-leave-status/${user._id}`
+        );
         setLeaveRequests(response.data);
         setLoading(false);
       } catch (err) {
@@ -47,16 +60,45 @@ const TrackLeaveStatus = () => {
         return <FaClock className="text-xl" color="yellow" />;
     }
   };
+
   return (
-    <div className="bg-cover loaderContainer" style={{ backgroundImage: `url('/Frame 1.svg')` }}>
+    <div
+      className="bg-cover"
+      style={{ backgroundImage: `url('/Frame 1.svg')` }}
+    >
       <div className="mx-auto px-5 md:w-2/3">
         <Box textAlign="center" p={5} mx={"auto"} w="full">
           {loading ? (
-            <Text>Loading...</Text>
+            <VStack spacing={5}>
+              {[...Array(3)].map((_, index) => (
+                <Box
+                  key={index}
+                  border="1px solid #111827"
+                  borderRadius="lg"
+                  p={5}
+                  bg="gray.800"
+                  maxW=""
+                  mx="auto"
+                  color="black"
+                >
+                  <Skeleton
+                    height={{ base: "466.41px", md: "302.5px" }}
+                    bg="gray.800"
+                    mb={4}
+                    width={{ base: "320px", md: "954.13px" }}
+                  />
+                  <SkeletonText mt="4" noOfLines={4} spacing="4" />
+                </Box>
+              ))}
+            </VStack>
           ) : (
             <>
               {leaveRequests.length === 0 ? (
-                <Text color={"green"}>You haven't applied for any leave.</Text>
+                <div className="pt-60">
+                  <Badge color={"red.600"} fontSize={{base:"12px",md: "16px"}} mb="300px">
+                    ! You haven't applied for any leave.
+                  </Badge>
+                </div>
               ) : (
                 <List spacing={5}>
                   {leaveRequests.map((leave) => {
@@ -109,7 +151,7 @@ const TrackLeaveStatus = () => {
                               </Badge>
                             </Text>
                             <Text fontSize="md">
-                              <Badge colorScheme="green" mr={2}>
+                              <Badge colorScheme="blue" mr={2}>
                                 {user.enrollmentNo}
                               </Badge>
                             </Text>
@@ -118,7 +160,10 @@ const TrackLeaveStatus = () => {
                                 Leave Duration
                               </Badge>
                               <Badge colorScheme="none" mr={2} fontSize="sm">
-                                {format(new Date(leave.start_date), "dd/MM/yyyy")}{" "}
+                                {format(
+                                  new Date(leave.start_date),
+                                  "dd/MM/yyyy"
+                                )}{" "}
                                 To{" "}
                                 {format(new Date(leave.end_date), "dd/MM/yyyy")}
                               </Badge>
@@ -142,6 +187,14 @@ const TrackLeaveStatus = () => {
                               </Badge>
                               <Badge colorScheme="orange" mr={2}>
                                 {leave.parent_mobile}
+                              </Badge>
+                            </Text>
+                            <Text fontSize="md">
+                              <Badge colorScheme="pink" mr={2}>
+                                Address
+                              </Badge>
+                              <Badge colorScheme="gray" mr={2}>
+                                {user.address}
                               </Badge>
                             </Text>
                           </VStack>
