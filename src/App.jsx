@@ -20,6 +20,7 @@ import LeaveRequests from "./controllers/LeaveRequests";
 import LeaveRequestsCC from "./controllers/LeaveRequestsCC";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import LeaveRequestsPrincipal from "./controllers/LeaveRequestsPrincipal";
+import UserApproval from "./controllers/UserApproval";
 
 const App = () => {
   return (
@@ -55,7 +56,7 @@ const App = () => {
           <Route path="/coordinator/view-leave" element={<LeaveRequestsCC />} />
           <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
           <Route path="/principal/view-leave" element={<LeaveRequestsPrincipal />} />
-          <Route path="/principal/approval" element={<PrincipalDashboard />} />
+          <Route path="/principal/approval" element={<UserApproval />} />
           {/* <Route path="/principal/dashboard" element={<PrincipalDashboard />} /> */}
         </Routes>
       </Router>

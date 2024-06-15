@@ -121,6 +121,11 @@ function Header() {
         path: "/principal/view-attendance",
         icon: null,
       });
+      menuItems.push({
+        label: "User Approval",
+        path: "/principal/approval",
+        icon: null,
+      });
     }
   } else {
     menuItems.push({ label: "Home", path: "/", icon: <BiSolidHome /> });
