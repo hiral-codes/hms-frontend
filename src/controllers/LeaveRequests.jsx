@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "../utils/api";
 import { toast } from "react-toastify";
-import "tailwindcss/tailwind.css";
 import {
   FaCheckCircle,
   FaTimesCircle,
@@ -11,9 +10,11 @@ import {
   FaHome,
   FaAddressCard,
   FaGraduationCap,
-  FaRegTimesCircle,
 } from "react-icons/fa";
 import { BsCake, BsPatchQuestionFill } from "react-icons/bs";
+import { IoTime } from "react-icons/io5";
+
+import dayjs from "dayjs";
 
 const LeaveRequests = () => {
   const { getAvatar } = useContext(AuthContext);
@@ -26,7 +27,6 @@ const LeaveRequests = () => {
       const response = await axios.get(`/warden/leave-requests`);
       const leaveRequestsData = response.data;
       setLeaveRequests(leaveRequestsData);
-      console.log("Fetched leave requests successfully:", leaveRequestsData);
       return leaveRequestsData;
     } catch (error) {
       console.log("Error fetching leave requests:", error);
@@ -47,7 +47,6 @@ const LeaveRequests = () => {
         return acc;
       }, {});
       setStudents(studentData);
-      console.log("Fetched all student data successfully:", studentData);
     } catch (error) {
       console.log("Error fetching student data:", error);
     }
@@ -92,77 +91,78 @@ const LeaveRequests = () => {
 
   return (
     <div className="p-4 bg-black min-h-screen text-white">
-      <h2 className="text-3xl font-bold mb-4">
-        Leave Requests ({leaveRequests.length})
-      </h2>
-      <ul className="space-y-4">
+      <h2 className="text-3xl font-bold mb-6">Leave Requests ({leaveRequests.length})</h2>
+      <ul className="space-y-6">
         {leaveRequests.map((request) => {
+  
           const student = students[request.student_id];
+          const startDate = dayjs(request.start_date).format("DD-MM-YY");
+          const endDate = dayjs(request.end_date).format("DD-MM-YY");
           return (
             <li
               key={request._id}
-              className="p-4 bg-gray-700 shadow-md rounded-lg flex flex-col md:flex-row items-center justify-between"
+              className="p-6 bg-gray-800 shadow-md rounded-lg flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0 md:space-x-6"
             >
               {student && (
-                <div className="flex flex-col md:flex-row items-center flex-1">
+                <div className="flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6">
                   <img
                     src={getAvatar(student)}
                     alt="avatar"
-                    className="max-w-[90px] max-h-[90px] rounded-full mr-4 mb-4 md:mb-0"
+                    className="w-24 h-24 rounded-full"
                   />
                   <div className="text-center md:text-left">
-                    <p className="font-bold text-green-500 text-sm flex items-center">
+                    <p className="font-bold text-xl text-green-500 flex items-center justify-center md:justify-start mb-1">
                       <FaUser className="mr-2" />
                       {student.name}
                     </p>
-                    <p className="font-bold text-gray-300 text-sm flex items-center">
+                    <p className="text-gray-300 flex items-center justify-center md:justify-start mb-1">
                       <FaAddressCard className="mr-2" />
                       {student.enrollmentNo}
                     </p>
-                    <p className="text-gray-300 font-bold capitalize text-sm flex items-center">
-                      <FaGraduationCap className="mr-2 text-sm" />
+                    <p className="text-gray-300 flex items-center justify-center md:justify-start mb-1">
+                      <FaGraduationCap className="mr-2" />
                       {student.branch} SEM - {student.semester}
                     </p>
-                    <p className="text-gray-300 font-bold capitalize text-sm flex items-center">
-                      <BsCake className="mr-2 text-sm" />
-                      {student.dob}
+                    <p className="text-gray-300 flex items-center justify-center md:justify-start mb-1">
+                      <BsCake className="mr-2" />
+                      {dayjs(student.dob).format("DD-MMMM-YYYY")}
                     </p>
-                    <p className="text-gray-300 font-bold text-sm flex items-center">
+                    <p className="text-gray-300 flex items-center justify-center md:justify-start mb-1">
                       <FaHome className="mr-2" />
-                      Address: {student.address}
+                      {student.address}
                     </p>
-                    <p className="text-gray-300 font-bold text-sm flex items-center">
+                    <p className="text-gray-300 flex items-center justify-center md:justify-start">
                       <FaPhone className="mr-2" />
-                      Parent's Mobile: {request.parent_mobile}
+                      {request.parent_mobile}
                     </p>
                   </div>
                 </div>
               )}
-              <div className="flex-1 text-center md:text-left mt-4 md:mt-0">
-                <p className="text-base flex items-center text-gray-300">
+              <div className="flex-grow text-center md:text-left">
+                <p className="text-base flex items-center justify-center md:justify-start text-gray-300 mb-2">
                   <BsPatchQuestionFill className="mr-2" />
-                  <span className="font-bold">Reason :</span>
-                  <span className="capitalize pl-1">{request.reason}</span>
+                  <span className="font-bold">Reason:</span>
+                  <span className="pl-1">{request.reason}</span>
                 </p>
-                <p className="text-base flex items-center text-gray-300">
-                  <FaRegTimesCircle className="mr-2" />
-                  <span className="font-bold">Duration :</span>
-                  <span className="capitalize pl-1">
-                    {request.start_date} to {request.end_date}
+                <p className="text-base flex items-center justify-center md:justify-start text-gray-300">
+                  <IoTime  className="mr-2" />
+                  <span className="font-bold">Duration:</span>
+                  <span className="pl-1">
+                    {startDate} to {endDate}
                   </span>
                 </p>
               </div>
-              <div className="mt-4 md:mt-0 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+              <div className="flex space-x-4">
                 <button
                   onClick={() => handleStatusChange(request._id, "approved")}
-                  className="bg-green-600 px-4 py-2 rounded-md text-white flex items-center justify-center"
+                  className="bg-green-600 px-4 py-2 rounded-md text-white flex items-center"
                 >
                   <FaCheckCircle className="mr-2" />
                   Approve
                 </button>
                 <button
                   onClick={() => handleStatusChange(request._id, "rejected")}
-                  className="bg-red-600 px-4 py-2 rounded-md text-white flex items-center justify-center"
+                  className="bg-red-600 px-4 py-2 rounded-md text-white flex items-center"
                 >
                   <FaTimesCircle className="mr-2" />
                   Reject
