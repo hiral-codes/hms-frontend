@@ -1,179 +1,178 @@
-import React, { useEffect, useState } from "react";
-import { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import axios from "../utils/api";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  List,
-  ListItem,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Text,
-  useDisclosure,
-  Icon,
-  Avatar,
-} from "@chakra-ui/react";
-import { CheckCircleIcon, CloseIcon, InfoIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
+import "tailwindcss/tailwind.css";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaUser,
+  FaPhone,
+  FaHome,
+  FaAddressCard,
+  FaGraduationCap,
+  FaRegTimesCircle,
+} from "react-icons/fa";
+import { BsCake, BsPatchQuestionFill } from "react-icons/bs";
 
 const LeaveRequests = () => {
   const { getAvatar } = useContext(AuthContext);
   const [students, setStudents] = useState({});
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const [selectedRequestId, setSelectedRequestId] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Fetch leave requests on component mount
   const fetchLeaveRequests = async () => {
     try {
       const response = await axios.get(`/warden/leave-requests`);
-      setLeaveRequests(response.data);
-      console.log("Fetched leave requests successfully:", response.data);
+      const leaveRequestsData = response.data;
+      setLeaveRequests(leaveRequestsData);
+      console.log("Fetched leave requests successfully:", leaveRequestsData);
+      return leaveRequestsData;
     } catch (error) {
       console.log("Error fetching leave requests:", error);
     }
   };
 
-  useEffect(() => {
-    fetchLeaveRequests();
-  }, []);
+  // Fetch student details
+  const fetchStudents = async (leaveRequestsData) => {
+    try {
+      const studentIds = [
+        ...new Set(leaveRequestsData.map((req) => req.student_id)),
+      ];
+      const studentResponses = await Promise.all(
+        studentIds.map((id) => axios.get(`/students/profile/${id}`))
+      );
+      const studentData = studentResponses.reduce((acc, res) => {
+        acc[res.data._id] = res.data;
+        return acc;
+      }, {});
+      setStudents(studentData);
+      console.log("Fetched all student data successfully:", studentData);
+    } catch (error) {
+      console.log("Error fetching student data:", error);
+    }
+  };
 
-  // Fetch student details when leave requests are available
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const studentIds = [...new Set(leaveRequests.map(req => req.student_id))];
-        const studentResponses = await Promise.all(studentIds.map(id => axios.get(`/students/profile/${id}`)));
-        const studentData = studentResponses.reduce((acc, res) => {
-          acc[res.data._id] = res.data;
-          return acc;
-        }, {});
-        setStudents(studentData);
-        console.log("Fetched all student data successfully:", studentData);
-      } catch (error) {
-        console.log("Error fetching student data:", error);
+    const fetchAllData = async () => {
+      const leaveRequestsData = await fetchLeaveRequests();
+      if (leaveRequestsData && leaveRequestsData.length > 0) {
+        await fetchStudents(leaveRequestsData);
       }
     };
 
-    if (leaveRequests.length) {
-      fetchStudents();
-    }
-  }, [leaveRequests]);
-
-  // Handle click on leave request to open modal with details
-  const handleRequestClick = (requestId) => {
-    setSelectedRequestId(requestId);
-    onOpen();
-  };
-
-  // Handle modal close
-  const handleCloseModal = () => {
-    setSelectedRequestId(null);
-    onClose();
-  };
+    fetchAllData();
+  }, []);
 
   // Handle status change for leave request
-  const handleStatusChange = async (status) => {
-    if (!selectedRequestId) return;
+  const handleStatusChange = async (requestId, status) => {
     try {
-      const response = await axios.post(
-        `/warden/leave-requests/${selectedRequestId}`,
-        { status }
-      );
-      fetchLeaveRequests();
-      if(status === 'approved'){
-        toast.success("Leave Approved")
+      await axios.post(`/warden/leave-requests/${requestId}`, {
+        status,
+      });
+      const leaveRequestsData = await fetchLeaveRequests();
+      if (leaveRequestsData && leaveRequestsData.length > 0) {
+        await fetchStudents(leaveRequestsData);
       }
-      else{
-        toast.info("Leave Rejected")
+      if (status === "approved") {
+        toast.success("Leave Approved");
+      } else {
+        toast.info("Leave Rejected");
       }
       setLeaveRequests((prev) =>
-        prev.map((req) =>
-          req._id === selectedRequestId ? { ...req, status } : req
-        )
+        prev.map((req) => (req._id === requestId ? { ...req, status } : req))
       );
-      handleCloseModal();
     } catch (error) {
-      console.log("Error updating leave request status:", error.response ? error.response.data : error.message);
+      console.log(
+        "Error updating leave request status:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
-  const selectedRequest = leaveRequests.find(req => req._id === selectedRequestId);
-  const selectedStudent = selectedRequest ? students[selectedRequest.student_id] : null;
-
   return (
-    <Box p={4} bg="gray.800" minH="100vh" color="white">
-      <Heading as="h2" size="xl" mb={4}>Leave Requests ({leaveRequests.length})</Heading>
-      <List spacing={4}>
-        {leaveRequests.map((request) => (
-          <ListItem
-            key={request._id}
-            p={4}
-            bg="gray.700"
-            shadow="md"
-            rounded="lg"
-            cursor="pointer"
-            _hover={{ bg: "gray.600" }}
-            onClick={() => handleRequestClick(request._id)}
-          >
-            {students[request.student_id] && (
-              <>
-                <Text>Name: {students[request.student_id].name}</Text>
-                <Text>Hostel Room: {students[request.student_id].roomNo}</Text>
-                <Text>Branch: {students[request.student_id].branch}</Text>
-                <Text>Semester: {students[request.student_id].semester}</Text>
-              </>
-            )}
-            <Text>Reason: {request.reason}</Text>
-          </ListItem>
-        ))}
-      </List>
-
-      {selectedRequest && selectedStudent && (
-        <Modal isOpen={isOpen} onClose={handleCloseModal}>
-          <ModalOverlay />
-          <ModalContent bg="gray.700" color="white">
-            <ModalHeader>Student Details</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <img src={getAvatar(selectedStudent)} className="max-h-40 mx-auto rounded-full"/>
-              <Text mb={2}><strong>Name:</strong> {selectedStudent.name}</Text>
-              <Text mb={2}><strong>Branch:</strong> {selectedStudent.branch}</Text>
-              <Text mb={2}><strong>Reason for Leave:</strong> {selectedRequest.reason}</Text>
-              <Text mb={2}><strong>Start Date:</strong> {new Date(selectedRequest.start_date).toLocaleDateString()}</Text>
-              <Text mb={2}><strong>End Date:</strong> {new Date(selectedRequest.end_date).toLocaleDateString()}</Text>
-              <Text mb={2}><strong>Parent's Mobile:</strong> {selectedRequest.parent_mobile}</Text>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                leftIcon={<CheckCircleIcon />}
-                onClick={() => handleStatusChange("approved")}
-                colorScheme="green"
-                mr={3}
-              >
-                Approve
-              </Button>
-              <Button
-                leftIcon={<CloseIcon />}
-                onClick={() => handleStatusChange("rejected")}
-                colorScheme="red"
-                mr={3}
-              >
-                Reject
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      )}
-    </Box>
+    <div className="p-4 bg-black min-h-screen text-white">
+      <h2 className="text-3xl font-bold mb-4">
+        Leave Requests ({leaveRequests.length})
+      </h2>
+      <ul className="space-y-4">
+        {leaveRequests.map((request) => {
+          const student = students[request.student_id];
+          return (
+            <li
+              key={request._id}
+              className="p-4 bg-gray-700 shadow-md rounded-lg flex flex-col md:flex-row items-center justify-between"
+            >
+              {student && (
+                <div className="flex flex-col md:flex-row items-center flex-1">
+                  <img
+                    src={getAvatar(student)}
+                    alt="avatar"
+                    className="max-w-[90px] max-h-[90px] rounded-full mr-4 mb-4 md:mb-0"
+                  />
+                  <div className="text-center md:text-left">
+                    <p className="font-bold text-green-500 text-sm flex items-center">
+                      <FaUser className="mr-2" />
+                      {student.name}
+                    </p>
+                    <p className="font-bold text-gray-300 text-sm flex items-center">
+                      <FaAddressCard className="mr-2" />
+                      {student.enrollmentNo}
+                    </p>
+                    <p className="text-gray-300 font-bold capitalize text-sm flex items-center">
+                      <FaGraduationCap className="mr-2 text-sm" />
+                      {student.branch} SEM - {student.semester}
+                    </p>
+                    <p className="text-gray-300 font-bold capitalize text-sm flex items-center">
+                      <BsCake className="mr-2 text-sm" />
+                      {student.dob}
+                    </p>
+                    <p className="text-gray-300 font-bold text-sm flex items-center">
+                      <FaHome className="mr-2" />
+                      Address: {student.address}
+                    </p>
+                    <p className="text-gray-300 font-bold text-sm flex items-center">
+                      <FaPhone className="mr-2" />
+                      Parent's Mobile: {request.parent_mobile}
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className="flex-1 text-center md:text-left mt-4 md:mt-0">
+                <p className="text-base flex items-center text-gray-300">
+                  <BsPatchQuestionFill className="mr-2" />
+                  <span className="font-bold">Reason :</span>
+                  <span className="capitalize pl-1">{request.reason}</span>
+                </p>
+                <p className="text-base flex items-center text-gray-300">
+                  <FaRegTimesCircle className="mr-2" />
+                  <span className="font-bold">Duration :</span>
+                  <span className="capitalize pl-1">
+                    {request.start_date} to {request.end_date}
+                  </span>
+                </p>
+              </div>
+              <div className="mt-4 md:mt-0 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+                <button
+                  onClick={() => handleStatusChange(request._id, "approved")}
+                  className="bg-green-600 px-4 py-2 rounded-md text-white flex items-center justify-center"
+                >
+                  <FaCheckCircle className="mr-2" />
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleStatusChange(request._id, "rejected")}
+                  className="bg-red-600 px-4 py-2 rounded-md text-white flex items-center justify-center"
+                >
+                  <FaTimesCircle className="mr-2" />
+                  Reject
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

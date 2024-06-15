@@ -77,7 +77,7 @@ function Header() {
       menuItems.push({
         label: "Dashboard",
         path: "/warden/dashboard",
-        icon: null,
+        icon: <BiSolidDashboard />,
       });
       menuItems.push({
         label: "View Leave Requests",
