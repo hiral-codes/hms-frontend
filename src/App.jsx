@@ -17,6 +17,9 @@ import TrackLeaveStatus from "./controllers/LeaveStatus";
 import CompleteRegistration from "./components/CompleteRegistration";
 import NotFound from "./pages/PageNotFound";
 import LeaveRequests from "./controllers/LeaveRequests";
+import LeaveRequestsCC from "./controllers/LeaveRequestsCC";
+import PrincipalDashboard from "./pages/PrincipalDashboard";
+import LeaveRequestsPrincipal from "./controllers/LeaveRequestsPrincipal";
 
 const App = () => {
   return (
@@ -37,7 +40,10 @@ const App = () => {
           <Route path="/auth/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/student/dashboard" element={<StudentDashboard />} />
-          <Route path="/complete-registration" element={<CompleteRegistration />} />
+          <Route
+            path="/complete-registration"
+            element={<CompleteRegistration />}
+          />
           <Route path="/student/apply-leave" element={<ApplyLeave />} />
           <Route path="/student/track-leave" element={<TrackLeaveStatus />} />
           <Route path="/warden/dashboard" element={<WardenDashboard />} />
@@ -46,6 +52,10 @@ const App = () => {
             path="/coordinator/dashboard"
             element={<CoordinatorDashboard />}
           />
+          <Route path="/coordinator/view-leave" element={<LeaveRequestsCC />} />
+          <Route path="/principal/dashboard" element={<PrincipalDashboard />} />
+          <Route path="/principal/view-leave" element={<LeaveRequestsPrincipal />} />
+          <Route path="/principal/approval" element={<PrincipalDashboard />} />
           {/* <Route path="/principal/dashboard" element={<PrincipalDashboard />} /> */}
         </Routes>
       </Router>

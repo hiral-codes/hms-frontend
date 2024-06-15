@@ -16,7 +16,7 @@ import { IoTime } from "react-icons/io5";
 
 import dayjs from "dayjs";
 
-const LeaveRequests = () => {
+const LeaveRequestsPrincipal = () => {
   const { getAvatar } = useContext(AuthContext);
   const [students, setStudents] = useState({});
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -24,7 +24,7 @@ const LeaveRequests = () => {
   // Fetch leave requests on component mount
   const fetchLeaveRequests = async () => {
     try {
-      const response = await axios.get(`/warden/leave-requests`);
+      const response = await axios.get(`/principal/leave-requests`);
       const leaveRequestsData = response.data;
       setLeaveRequests(leaveRequestsData);
       return leaveRequestsData;
@@ -66,7 +66,7 @@ const LeaveRequests = () => {
   // Handle status change for leave request
   const handleStatusChange = async (requestId, status) => {
     try {
-      await axios.post(`/warden/leave-requests/${requestId}`, {
+      await axios.post(`/principal/leave-requests/${requestId}`, {
         status,
       });
       const leaveRequestsData = await fetchLeaveRequests();
@@ -176,4 +176,4 @@ const LeaveRequests = () => {
   );
 };
 
-export default LeaveRequests;
+export default LeaveRequestsPrincipal;

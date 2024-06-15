@@ -105,6 +105,22 @@ function Header() {
         path: "/coordinator/view-attendance",
         icon: null,
       });
+    } else if (user.role === "principal") {
+      menuItems.push({
+        label: "Dashboard",
+        path: "/principal/dashboard",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Leave Requests",
+        path: "/principal/view-leave",
+        icon: null,
+      });
+      menuItems.push({
+        label: "View Attendance",
+        path: "/principal/view-attendance",
+        icon: null,
+      });
     }
   } else {
     menuItems.push({ label: "Home", path: "/", icon: <BiSolidHome /> });
@@ -220,7 +236,7 @@ function Header() {
           <Link
             to="/auth/login"
             className={`hover:text-gray-300 transition-colors duration-200 flex items-center gap-1 ${
-              location.pathname === '/auth/login' ? "text-blue-400" : ""
+              location.pathname === "/auth/login" ? "text-blue-400" : ""
             }`}
           >
             <BiSolidLogInCircle />
@@ -229,7 +245,7 @@ function Header() {
           <Link
             to="/auth/register"
             className={`hover:text-gray-300 transition-colors duration-200 flex items-center gap-1 ${
-              location.pathname === '/auth/register' ? "text-blue-400" : ""
+              location.pathname === "/auth/register" ? "text-blue-400" : ""
             }`}
           >
             <MdAssignmentAdd />
