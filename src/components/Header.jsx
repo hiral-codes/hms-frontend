@@ -1,5 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { MdCoPresent, MdVerifiedUser } from "react-icons/md";
+import { FaUsersViewfinder } from "react-icons/fa6";
 import {
   FaBell,
   FaUserCircle,
@@ -82,49 +84,49 @@ function Header() {
       menuItems.push({
         label: "View Leave Requests",
         path: "/warden/view-leave",
-        icon: null,
+        icon: <FaUsersViewfinder />,
       });
       menuItems.push({
         label: "View Attendance",
         path: "/warden/view-attendance",
-        icon: null,
+        icon: <MdCoPresent/> ,
       });
     } else if (user.role === "class_coordinator") {
       menuItems.push({
         label: "Dashboard",
         path: "/coordinator/dashboard",
-        icon: null,
+        icon: <BiSolidDashboard />,
       });
       menuItems.push({
         label: "View Leave Requests",
         path: "/coordinator/view-leave",
-        icon: null,
+        icon: <FaUsersViewfinder />,
       });
       menuItems.push({
         label: "View Attendance",
         path: "/coordinator/view-attendance",
-        icon: null,
+        icon: <MdCoPresent/> ,
       });
     } else if (user.role === "principal") {
       menuItems.push({
         label: "Dashboard",
         path: "/principal/dashboard",
-        icon: null,
+        icon: <BiSolidDashboard />,
       });
       menuItems.push({
         label: "View Leave Requests",
         path: "/principal/view-leave",
-        icon: null,
+        icon: <FaUsersViewfinder />,
       });
       menuItems.push({
         label: "View Attendance",
         path: "/principal/view-attendance",
-        icon: null,
+        icon: <MdCoPresent/> ,
       });
       menuItems.push({
         label: "User Approval",
         path: "/principal/approval",
-        icon: null,
+        icon: <MdVerifiedUser/>,
       });
     }
   } else {
