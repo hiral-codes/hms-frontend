@@ -42,7 +42,7 @@ function UserApproval() {
     <div className="dark">
       <div className="container mx-auto p-4 bg-black dark:text-white">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">User Approval</h1>
+          <h1 className="text-2xl font-bold">User Approval{`(${users.length})`}</h1>
         </div>
         <div className="overflow-x-auto bg-gray-800 shadow-md rounded-lg">
           <table className="min-w-full leading-normal">
