@@ -140,13 +140,13 @@ function Header() {
   }
 
   return (
-    <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-5 md:px-16 flex items-center justify-between z-20 shadow-lg">
+    <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-4 md:px-16 flex items-center justify-between z-20 shadow-lg">
       <GiHamburgerMenu
-        className="block text-xl md:hidden cursor-pointer"
+        className="block mr-3 text-3xl md:hidden cursor-pointer"
         onClick={toggleMobileMenu}
       />
       <Link to="#" className="text-2xl font-bold">
-        <img src="/logo.svg" alt="Logo" className="max-h-5 md:max-h-7" />
+        <img src="/logo.svg" alt="Logo" className="max-h-8 md:max-h-7" />
       </Link>
       <nav className="hidden md:flex space-x-8 text-base font-semibold">
         {menuItems.map((item, index) => (
@@ -239,7 +239,7 @@ function Header() {
           </div>
         </div>
       ) : (
-        <nav className="flex space-x-8 text-base font-semibold">
+        <nav className="flex space-x-4 ml-4 text-sm font-semibold md:text-base">
           <Link
             to="/auth/login"
             className={`hover:text-gray-300 transition-colors duration-200 flex items-center gap-1 ${
