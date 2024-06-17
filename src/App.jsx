@@ -28,7 +28,7 @@ const App = () => {
   return (
     <AuthProvider>
       <ToastContainer
-        position="top-center"
+        position="bottom-center"
         autoClose={2000}
         theme="dark"
         hideProgressBar={true}

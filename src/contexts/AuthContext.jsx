@@ -13,11 +13,20 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkLoggedIn = async () => {
       try {
-        const response = await api.get("/auth/check");
-        const userData = response.data;
-        userData.avatar = getAvatar(userData);
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await api.get("/auth/check", {
+            headers: {
+              Authorization: `${token}`
+            }
+          });
+          const userData = response.data;
+          userData.avatar = getAvatar(userData);
+          setUser(userData);
+          localStorage.setItem("user", JSON.stringify(userData));
+        } else {
+          throw new Error("No token found");
+        }
       } catch (error) {
         console.error("Failed to verify token:", error);
         setUser(null);
