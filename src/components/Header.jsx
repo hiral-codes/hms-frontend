@@ -146,7 +146,7 @@ function Header() {
         onClick={toggleMobileMenu}
       />
       <Link to="#" className="text-2xl font-bold">
-        <img src="/logo.svg" alt="Logo" className="max-h-8 mr-2 md:max-h-7" />
+        <img src="/logo.svg" alt="Logo" className="max-h-5 mr-2 md:max-h-7" />
       </Link>
       <nav className="hidden md:flex space-x-8 text-base font-semibold">
         {menuItems.map((item, index) => (
