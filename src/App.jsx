@@ -29,9 +29,9 @@ const App = () => {
     <AuthProvider>
       <ToastContainer
         position="bottom-center"
-        autoClose={2000}
+        autoClose={2500}
         theme="dark"
-        hideProgressBar={true}
+        hideProgressBar={false}
         closeButton={false}
       />
       <Router>
