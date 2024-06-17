@@ -119,15 +119,13 @@ const Register = () => {
                 <div>
                   <select
                     name="role"
-                    id=""
+                    id="role"
                     value={role}
                     className="border border-gray-900 text-gray-200 sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-[black]"
                     onChange={(e) => setRole(e.target.value)}
                     required
                   >
-                    <option selected value="">
-                      Select Role
-                    </option>
+                    <option defaultValue={true}>Select Role</option>
                     <option value="student">Student</option>
                     <option value="warden">Warden</option>
                     <option value="coordinator">Coordinator</option>
@@ -137,15 +135,13 @@ const Register = () => {
                   <div>
                     <select
                       name="branch"
-                      id=""
+                      id="branch"
                       value={branch}
                       className="border border-gray-900 text-gray-200 sm:text-sm rounded-lg block w-full p-2.5 outline-none bg-[black]"
                       onChange={(e) => setBranch(e.target.value)}
                       required
                     >
-                      <option selected value="">
-                        Select Branch
-                      </option>
+                      <option defaultValue={true}>Select Branch</option>
                       <option value="computer">Computer</option>
                       <option value="civil">Civil</option>
                       <option value="electrical">Electrical</option>
@@ -175,7 +171,7 @@ const Register = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
-                <p className="text-sm text-red-600 italic">
+                <p className="text-sm text-green-600 italic">
                   {/* Show error if passwords do not match */}
                   {password !== confirmPassword && "Passwords do not match"}
                 </p>
@@ -191,7 +187,7 @@ const Register = () => {
                 <button className="px-4 py-2 border flex gap-2 border-gray-900 rounded-lg text-slate-700 dark:text-slate-200 hover:border-gray-600 hover:shadow transition duration-150">
                   <img
                     className="w-6 h-6"
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                    src="/google-color.svg"
                     loading="lazy"
                     alt="google logo"
                   />

@@ -27,7 +27,7 @@ function Home() {
           </div>
         </div>
         <img
-          src="https://img.freepik.com/free-vector/teen-male-students-group-dormitory-room-boy-characters-discussing-together_33099-134.jpg?t=st=1718308832~exp=1718312432~hmac=c72420fb82f640cdacc2e58299d88cdf64dfd6ead87fc2f38ec1cd2b43eaf38a&w=996"
+          src="/mainbg.jpg"
           alt="Background"
           className="absolute inset-0 object-cover h-full w-full object-bottom opacity-20"
         />
