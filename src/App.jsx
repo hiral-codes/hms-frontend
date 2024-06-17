@@ -21,6 +21,8 @@ import LeaveRequestsCC from "./controllers/LeaveRequestsCC";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import LeaveRequestsPrincipal from "./controllers/LeaveRequestsPrincipal";
 import UserApproval from "./controllers/UserApproval";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />

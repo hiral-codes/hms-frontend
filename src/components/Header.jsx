@@ -140,7 +140,7 @@ function Header() {
   }
 
   return (
-    <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-6 flex items-center justify-between z-20 shadow-lg">
+    <header className="bg-black border-b border-gray-900 text-white py-6 fixed top-0 left-0 right-0 px-5 md:px-16 flex items-center justify-between z-20 shadow-lg">
       <GiHamburgerMenu
         className="block text-xl md:hidden cursor-pointer"
         onClick={toggleMobileMenu}

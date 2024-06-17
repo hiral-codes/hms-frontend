@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../utils/api";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function UserApproval() {
   const [users, setUsers] = useState([]);
@@ -19,6 +20,7 @@ function UserApproval() {
       await axios.post(`/principal/approve-user/${_id}`);
       // Update the state to remove the approved user
       setUsers(users.filter((user) => user._id !== _id));
+      toast.success("User Approved")
     } catch (error) {
       console.log("Error approving user:", error);
     }
@@ -37,7 +39,13 @@ function UserApproval() {
   useEffect(() => {
     fetchApprovalRequests();
   }, []);
-
+  if(users.length ===0){
+    return(
+      <div className="fitScreen">
+<div className="text-2xl md:text-4xl flex items-center justify-center h-full text-green-600">!No requests available for approval</div>
+      </div>
+    )
+  }
   return (
     <div className="dark">
       <div className="container mx-auto p-4 bg-black dark:text-white">
