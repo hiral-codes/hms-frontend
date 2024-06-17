@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: 'https://hms-backend-svkn.onrender.com:3001',
 });
 
 api.interceptors.request.use(
