@@ -17,8 +17,8 @@ const AuthProvider = ({ children }) => {
         if (token) {
           const response = await api.get("/auth/check", {
             headers: {
-              Authorization: `${token}`
-            }
+              Authorization: `${token}`,
+            },
           });
           const userData = response.data;
           userData.avatar = getAvatar(userData);
@@ -88,7 +88,7 @@ const AuthProvider = ({ children }) => {
       <div className="h-screen z-50 flex items-center justify-center">
         <Spinner
           thickness="4px"
-          speed="0.65s"
+          speed="0.5s"
           emptyColor="gray.200"
           color="blue.600"
           size="xl"
@@ -98,7 +98,7 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user,setUser, login, logout, getAvatar }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, getAvatar }}>
       {children}
     </AuthContext.Provider>
   );
