@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(() => {    
     const checkLoggedIn = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -86,13 +86,7 @@ const AuthProvider = ({ children }) => {
   if (loading) {
     return (
       <div className="h-screen z-50 flex items-center justify-center">
-        <Spinner
-          thickness="4px"
-          speed="0.5s"
-          emptyColor="gray.200"
-          color="blue.600"
-          size="xl"
-        />
+        Loading...
       </div>
     );
   }

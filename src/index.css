@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body{
     padding-top: 76.79px;
     background-color: black !important;
